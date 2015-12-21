@@ -186,22 +186,18 @@ class AttributeValue(ModelSQL, ModelView):
     @classmethod
     def deactivate(cls, values):
         """Deactivates products attribute values"""
-        pool = Pool()
-        Product = pool.get('product.attribute.value')
         to_update = [p for p in values if p.active]
         if to_update:
-            Product.write(to_update, {
+            cls.write(to_update, {
                     'active': False,
                     })
 
     @classmethod
     def activate(cls, values):
         """Deactivates products attribute values"""
-        pool = Pool()
-        Product = pool.get('product.attribute.value')
         to_update = [p for p in values if not p.active]
         if to_update:
-            Product.write(to_update, {
+            cls.write(to_update, {
                     'active': True,
                     })
 
