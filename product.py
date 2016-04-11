@@ -98,10 +98,11 @@ class Template:
         pool = Pool()
         Product = pool.get('product.product')
         code = self.create_variant_code(self.basecode, variant)
-        to_update = [p for p in products if p.code != code]
+        to_update = [p for p in products if p.code != code or not p.active]
         if to_update:
             Product.write(to_update, {
                     'code': code,
+                    'active': True,
                     })
 
     def deactivate_variant_product(self, products):
@@ -183,6 +184,10 @@ class AttributeValue(ModelSQL, ModelView):
     def default_sequence():
         return 0
 
+    @staticmethod
+    def default_active():
+        return True
+
     @classmethod
     def deactivate(cls, values):
         """Deactivates products attribute values"""
@@ -194,7 +199,7 @@ class AttributeValue(ModelSQL, ModelView):
 
     @classmethod
     def activate(cls, values):
-        """Deactivates products attribute values"""
+        """Activates products attribute values"""
         to_update = [p for p in values if not p.active]
         if to_update:
             cls.write(to_update, {
