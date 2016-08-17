@@ -33,7 +33,7 @@ Configuración
 A través del menú |menu_product_configuration| defina el carácter separador que
 se usará para los códigos, por ejemplo, la barra "/".
 
-.. |menu_product_configuration| tryref:: product_configuration.menu_configuration/complete_name
+.. |menu_product_configuration| tryref:: product.menu_configuration/complete_name
 
 .. inheritref:: product_variant/product_variant:section:atributos
 
