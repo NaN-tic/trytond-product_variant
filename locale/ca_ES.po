@@ -1,6 +1,10 @@
-# 
+#
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "field:product.attribute,code:"
+msgid "Code"
+msgstr "Codi"
 
 msgctxt "field:product.attribute,create_date:"
 msgid "Create Date"
@@ -37,6 +41,10 @@ msgstr "Data modificació"
 msgctxt "field:product.attribute,write_uid:"
 msgid "Write User"
 msgstr "Usuari modificació"
+
+msgctxt "field:product.attribute.value,active:"
+msgid "Active"
+msgstr "Actiu"
 
 msgctxt "field:product.attribute.value,attribute:"
 msgid "Product Attribute"
@@ -85,6 +93,18 @@ msgstr "Separador al codi"
 msgctxt "field:product.product,attribute_values:"
 msgid "Values"
 msgstr "Valors"
+
+msgctxt "field:product.product,attributes:"
+msgid "Attributes"
+msgstr "Atributs"
+
+msgctxt "field:product.product,basecode:"
+msgid "Basecode"
+msgstr "Codi base"
+
+msgctxt "field:product.product,variants:"
+msgid "Variants"
+msgstr "Variants"
 
 msgctxt "field:product.product-attribute.value,create_date:"
 msgid "Create Date"
@@ -161,6 +181,10 @@ msgstr "Data modificació"
 msgctxt "field:product.template-product.attribute,write_uid:"
 msgid "Write User"
 msgstr "Usuari modificació"
+
+msgctxt "help:product.product,variants:"
+msgid "Number variants from this template"
+msgstr "Número de variants que conté la plantilla del producte."
 
 msgctxt "help:product.template,variants:"
 msgid "Number variants from this template"
