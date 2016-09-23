@@ -6,6 +6,7 @@ Imports::
 
     >>> from decimal import Decimal
     >>> from proteus import config, Model, Wizard
+    >>> from trytond.modules.product_variant.tests.tools import create_attributes
 
 Create database::
 
@@ -19,48 +20,10 @@ Install product_variant::
     >>> Module.install([product_variant_module.id], config.context)
     >>> Wizard('ir.module.install_upgrade').execute('upgrade')
 
-Create attribute::
+Create attributes::
 
     >>> Attribute = Model.get('product.attribute')
-    >>> AttributeValue = Model.get('product.attribute.value')
-
-    >>> attribute = Attribute()
-    >>> attribute.name = 'Color'
-    >>> attribute.save()
-
-    >>> attribute_value = AttributeValue()
-    >>> attribute_value.name = 'Red'
-    >>> attribute_value.code = 'R'
-    >>> attribute_value.attribute = attribute
-    >>> attribute_value.save()
-
-    >>> attribute_value = AttributeValue()
-    >>> attribute_value.name = 'Black'
-    >>> attribute_value.code = 'B'
-    >>> attribute_value.attribute = attribute
-    >>> attribute_value.save()
-
-    >>> attribute = Attribute()
-    >>> attribute.name = 'Size'
-    >>> attribute.save()
-
-    >>> attribute_value = AttributeValue()
-    >>> attribute_value.name = 'Large'
-    >>> attribute_value.code = 'L'
-    >>> attribute_value.attribute = attribute
-    >>> attribute_value.save()
-
-    >>> attribute_value = AttributeValue()
-    >>> attribute_value.name = 'Medium'
-    >>> attribute_value.code = 'M'
-    >>> attribute_value.attribute = attribute
-    >>> attribute_value.save()
-
-Create category::
-
-    >>> ProductCategory = Model.get('product.category')
-    >>> category = ProductCategory(name='Category')
-    >>> category.save()
+    >>> attributes = create_attributes()
 
 Create product::
 
@@ -69,7 +32,6 @@ Create product::
     >>> ProductTemplate = Model.get('product.template')
     >>> template = ProductTemplate()
     >>> template.name = 'Tryton T-Shirt'
-    >>> template.category = category
     >>> template.default_uom = unit
     >>> template.type = 'goods'
     >>> template.list_price = Decimal('10')

@@ -4,6 +4,8 @@ The COPYRIGHT file at the top level of this repository contains the full copyrig
 <form string="Product Attributes">
     <label name="name"/>
     <field name="name"/>
+    <label name="code"/>
+    <field name="code"/>
     <label name="sequence"/>
     <field name="sequence"/>
     <newline/>

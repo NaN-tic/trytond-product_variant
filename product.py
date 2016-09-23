@@ -5,6 +5,7 @@ from trytond.pool import Pool, PoolMeta
 from trytond.model import ModelView, ModelSQL, fields
 from trytond.pyson import Eval, Not, Bool
 from trytond.transaction import Transaction
+from trytond import backend
 import itertools
 
 __all__ = ['Product', 'Template', 'ProductAttribute', 'AttributeValue',
@@ -152,14 +153,32 @@ class Template:
 class ProductAttribute(ModelSQL, ModelView):
     "Product Attribute"
     __name__ = "product.attribute"
+    name = fields.Char('Name', required=True, translate=True)
+    code = fields.Char('Code', required=True)
     sequence = fields.Integer('Sequence')
-    name = fields.Char('Name', required=True, translate=True, select=1)
     values = fields.One2Many('product.attribute.value', 'attribute', 'Values')
 
     @classmethod
     def __setup__(cls):
         super(ProductAttribute, cls).__setup__()
         cls._order.insert(0, ('sequence', 'ASC'))
+
+    @classmethod
+    def __register__(cls, module_name):
+        TableHandler = backend.get('TableHandler')
+
+        sql_table = cls.__table__()
+        table_h = TableHandler(cls, module_name)
+        cursor = Transaction().connection.cursor()
+
+        code_not_exists = not table_h.column_exist('code')
+
+        super(ProductAttribute, cls).__register__(module_name)
+
+        if code_not_exists:
+            cursor.execute(*sql_table.update(
+                    columns=[sql_table.code],
+                    values=[sql_table.name]))
 
     @staticmethod
     def order_sequence(tables):
@@ -170,9 +189,9 @@ class ProductAttribute(ModelSQL, ModelView):
 class AttributeValue(ModelSQL, ModelView):
     "Values for Attributes"
     __name__ = "product.attribute.value"
-    sequence = fields.Integer('Sequence')
-    name = fields.Char('Name', required=True, select=1)
+    name = fields.Char('Name', required=True)
     code = fields.Char('Code', required=True)
+    sequence = fields.Integer('Sequence')
     attribute = fields.Many2One('product.attribute', 'Product Attribute',
         required=True, ondelete='CASCADE')
     active = fields.Boolean('Active', select=True)
