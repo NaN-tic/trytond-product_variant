@@ -1,6 +1,7 @@
-#This file is part product_variant module for Tryton.
-#The COPYRIGHT file at the top level of this repository contains
-#the full copyright notices and license terms.
+# This file is part product_variant module for Tryton.
+# The COPYRIGHT file at the top level of this repository contains
+# the full copyright notices and license terms.
+
 from trytond.pool import Pool, PoolMeta
 from trytond.model import ModelView, ModelSQL, fields
 from trytond.pyson import Eval, Not, Bool
@@ -10,11 +11,11 @@ import itertools
 
 __all__ = ['Product', 'Template', 'ProductAttribute', 'AttributeValue',
     'ProductTemplateAttribute', 'ProductAttributeValue']
-__metaclass__ = PoolMeta
 
 
 class Product:
     __name__ = 'product.product'
+    __metaclass__ = PoolMeta
     attribute_values = fields.Many2Many('product.product-attribute.value',
         'product', 'value', 'Values', readonly=True,
         order=[('value', 'DESC')])
@@ -30,6 +31,7 @@ class Product:
 
 class Template:
     __name__ = 'product.template'
+    __metaclass__ = PoolMeta
     basecode = fields.Char('Basecode',
         states={
             'invisible': Not(Bool(Eval('attributes')))
@@ -153,6 +155,7 @@ class Template:
 class ProductAttribute(ModelSQL, ModelView):
     "Product Attribute"
     __name__ = "product.attribute"
+
     name = fields.Char('Name', required=True, translate=True)
     code = fields.Char('Code', required=True)
     sequence = fields.Integer('Sequence')
@@ -189,6 +192,7 @@ class ProductAttribute(ModelSQL, ModelView):
 class AttributeValue(ModelSQL, ModelView):
     "Values for Attributes"
     __name__ = "product.attribute.value"
+
     name = fields.Char('Name', required=True)
     code = fields.Char('Code', required=True)
     sequence = fields.Integer('Sequence')
@@ -231,6 +235,7 @@ class AttributeValue(ModelSQL, ModelView):
 class ProductTemplateAttribute(ModelSQL, ModelView):
     "Product Template - Product Attribute"
     __name__ = "product.template-product.attribute"
+
     attribute = fields.Many2One('product.attribute', 'Product Attribute',
             ondelete='RESTRICT', required=True)
     template = fields.Many2One('product.template', 'Product template',
@@ -240,6 +245,7 @@ class ProductTemplateAttribute(ModelSQL, ModelView):
 class ProductAttributeValue(ModelSQL, ModelView):
     "Product - Product Attribute Value"
     __name__ = "product.product-attribute.value"
+
     product = fields.Many2One('product.product', 'Product',
             ondelete='CASCADE', required=True)
     value = fields.Many2One('product.attribute.value', 'Attribute Value',

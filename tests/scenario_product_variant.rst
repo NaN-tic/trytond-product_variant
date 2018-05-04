@@ -6,19 +6,12 @@ Imports::
 
     >>> from decimal import Decimal
     >>> from proteus import config, Model, Wizard
+    >>> from trytond.tests.tools import activate_modules
     >>> from trytond.modules.product_variant.tests.tools import create_attributes
 
-Create database::
+Install product_cost_plan Module::
 
-    >>> config = config.set_trytond()
-    >>> config.pool.test = True
-
-Install product_variant::
-
-    >>> Module = Model.get('ir.module')
-    >>> product_variant_module, = Module.find([('name', '=', 'product_variant')])
-    >>> Module.install([product_variant_module.id], config.context)
-    >>> Wizard('ir.module.install_upgrade').execute('upgrade')
+    >>> config = activate_modules('product_variant')
 
 Create attributes::
 
