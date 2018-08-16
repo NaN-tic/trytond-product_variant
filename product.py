@@ -193,7 +193,7 @@ class AttributeValue(ModelSQL, ModelView):
     "Values for Attributes"
     __name__ = "product.attribute.value"
 
-    name = fields.Char('Name', required=True)
+    name = fields.Char('Name', required=True, translate=True)
     code = fields.Char('Code', required=True)
     sequence = fields.Integer('Sequence')
     attribute = fields.Many2One('product.attribute', 'Product Attribute',
