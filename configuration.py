@@ -1,11 +1,12 @@
 # This file is part product_variant module for Tryton.
 # The COPYRIGHT file at the top level of this repository contains
 # the full copyright notices and license terms.
-from trytond.model import fields, ModelSQL
+from trytond.model import fields, ModelSQL, ModelSingleton, ModelView
 from trytond.pool import PoolMeta
 from trytond import backend
 from trytond.model import ValueMixin
 from trytond.tools.multivalue import migrate_property
+from trytond.modules.company.model import CompanyMultiValueMixin
 
 __all__ = ['Configuration']
 __metaclass__ = PoolMeta
@@ -14,7 +15,8 @@ __metaclass__ = PoolMeta
 code_separator = fields.Char('Code Separator')
 
 
-class Configuration:
+class Configuration(
+        ModelSingleton, ModelSQL, ModelView, CompanyMultiValueMixin):
     __name__ = 'product.configuration'
     code_separator = fields.MultiValue(code_separator)
 
