@@ -13,9 +13,8 @@ __all__ = ['Product', 'Template', 'ProductAttribute', 'AttributeValue',
     'ProductTemplateAttribute', 'ProductAttributeValue']
 
 
-class Product:
+class Product(metaclass=PoolMeta):
     __name__ = 'product.product'
-    __metaclass__ = PoolMeta
     attribute_values = fields.Many2Many('product.product-attribute.value',
         'product', 'value', 'Values', readonly=True,
         order=[('value', 'DESC')])
@@ -29,9 +28,8 @@ class Product:
         return super(Product, cls).create(vlist)
 
 
-class Template:
+class Template(metaclass=PoolMeta):
     __name__ = 'product.template'
-    __metaclass__ = PoolMeta
     basecode = fields.Char('Basecode',
         states={
             'invisible': Not(Bool(Eval('attributes')))
