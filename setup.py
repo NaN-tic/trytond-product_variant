@@ -5,7 +5,10 @@ from setuptools import setup
 import re
 import os
 import io
-from configparser import ConfigParser
+try:
+    from configparser import ConfigParser
+except ImportError:
+    from ConfigParser import ConfigParser
 
 MODULE = 'product_variant'
 PREFIX = 'nantic'

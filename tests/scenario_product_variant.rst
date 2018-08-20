@@ -39,4 +39,4 @@ Create product::
     >>> Product = Model.get('product.product')
     >>> product, = Product.find([('code', '=', '001-RL')])
     >>> product.code
-    '001-RL'
+    u'001-RL'

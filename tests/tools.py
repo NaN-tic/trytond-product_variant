@@ -27,7 +27,7 @@ def create_attributes():
         attribute = Attribute()
         attribute.name = a['name']
         attribute.code = a['name'].lower()
-        for k, v in a['options'].items():
+        for k, v in a['options'].iteritems():
             value = AttributeValue()
             value.name = k
             value.code = v
