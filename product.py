@@ -37,7 +37,8 @@ class Template:
             'invisible': Not(Bool(Eval('attributes')))
         }, depends=['attributes'])
     attributes = fields.Many2Many('product.template-product.attribute',
-        'template', 'attribute', 'Attributes')
+        'template', 'attribute', 'Attributes',
+        order=[('attribute.sequence', 'ASC')])
     variants = fields.Function(fields.Integer('Variants', select=1,
         help='Number variants from this template'),
         'get_variants', searcher='search_variants')
@@ -240,6 +241,11 @@ class ProductTemplateAttribute(ModelSQL, ModelView):
             ondelete='RESTRICT', required=True)
     template = fields.Many2One('product.template', 'Product template',
             ondelete='CASCADE', required=True)
+
+    @classmethod
+    def __setup__(cls):
+        super(ProductTemplateAttribute, cls).__setup__()
+        cls._order.insert(0, ('attribute.sequence', 'ASC'))
 
 
 class ProductAttributeValue(ModelSQL, ModelView):
