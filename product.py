@@ -21,6 +21,15 @@ class Product:
         order=[('value', 'DESC')])
 
     @classmethod
+    def __setup__(cls):
+        super(Product, cls).__setup__()
+        # order products by code ASC
+        cls._order = [
+            ('code', 'ASC'),
+            ('id', 'DESC'),
+            ]
+
+    @classmethod
     def create(cls, vlist):
         for vals in vlist:
             if vals.get('template') and not vals['template']:
