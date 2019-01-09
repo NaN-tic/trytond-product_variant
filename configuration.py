@@ -8,7 +8,7 @@ from trytond.model import ValueMixin
 from trytond.tools.multivalue import migrate_property
 from trytond.modules.company.model import CompanyMultiValueMixin
 
-__all__ = ['Configuration']
+__all__ = ['Configuration','ConfigurationCodeSeparator']
 __metaclass__ = PoolMeta
 
 
@@ -19,7 +19,6 @@ class Configuration(
         ModelSingleton, ModelSQL, ModelView, CompanyMultiValueMixin):
     __name__ = 'product.configuration'
     code_separator = fields.MultiValue(code_separator)
-
 
 class ConfigurationCodeSeparator(ModelSQL, ValueMixin):
     'Product Configuration Code Separator'

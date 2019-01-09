@@ -10,6 +10,7 @@ from .product import *
 def register():
     Pool.register(
         Configuration,
+        ConfigurationCodeSeparator,
         Product,
         Template,
         ProductAttribute,
