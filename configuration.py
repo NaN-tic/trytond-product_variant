@@ -46,5 +46,5 @@ class ConfigurationCodeSeparator(ModelSQL, ValueMixin):
             fields=fields)
 
     @classmethod
-    def default_default_code_separator(cls):
+    def default_code_separator(cls):
         return '-'
