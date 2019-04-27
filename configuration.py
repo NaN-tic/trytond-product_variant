@@ -20,6 +20,7 @@ class Configuration(
     __name__ = 'product.configuration'
     code_separator = fields.MultiValue(code_separator)
 
+
 class ConfigurationCodeSeparator(ModelSQL, ValueMixin):
     'Product Configuration Code Separator'
     __name__ = 'product.configuration.code_separator'
