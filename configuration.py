@@ -40,8 +40,8 @@ class ConfigurationCodeSeparator(ModelSQL, ValueMixin):
 
     @classmethod
     def _migrate_property(cls, field_names, value_names, fields):
-        field_names.append('default_default_code_separator')
-        value_names.append('default_default_code_separator')
+        field_names.append('code_separator')
+        value_names.append('code_separator')
         migrate_property(
             'product.configuration', field_names, cls, value_names,
             fields=fields)
