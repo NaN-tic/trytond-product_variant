@@ -264,13 +264,8 @@ class ProductAttributeValue(ModelSQL, ModelView):
     value = fields.Many2One('product.attribute.value', 'Attribute Value',
             ondelete='CASCADE', required=True)
 
+
     @classmethod
-    def search(cls, args, offset=0, limit=None, order=None, count=False,
-            query=False):
-        '''Order attributes value by sequence'''
-        res = super(ProductAttributeValue, cls).search(args, offset, limit,
-            order, count, query)
-        obs = [(ob.value.attribute.sequence, ob.id) for ob in res]
-        obs.sort()
-        res = [cls(i[1]) for i in obs]
-        return res
+    def __setup__(cls):
+        super().__setup__()
+        cls._order.insert(0, ('value.attribute.sequence', 'ASC'))
