@@ -176,10 +176,8 @@ class ProductAttribute(ModelSQL, ModelView):
 
     @classmethod
     def __register__(cls, module_name):
-        TableHandler = backend.get('TableHandler')
-
         sql_table = cls.__table__()
-        table_h = TableHandler(cls, module_name)
+        table_h = backend.TableHandler(cls, module_name)
         cursor = Transaction().connection.cursor()
 
         code_not_exists = not table_h.column_exist('code')
