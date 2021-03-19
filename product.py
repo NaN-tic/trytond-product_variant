@@ -16,8 +16,7 @@ __all__ = ['Product', 'Template', 'ProductAttribute', 'AttributeValue',
 class Product(metaclass=PoolMeta):
     __name__ = 'product.product'
     attribute_values = fields.Many2Many('product.product-attribute.value',
-        'product', 'value', 'Values', readonly=True,
-        order=[('value', 'DESC')])
+        'product', 'value', 'Values', readonly=True)
 
     @classmethod
     def __setup__(cls):
@@ -163,7 +162,6 @@ class Template(metaclass=PoolMeta):
 class ProductAttribute(ModelSQL, ModelView):
     "Product Attribute"
     __name__ = "product.attribute"
-
     name = fields.Char('Name', required=True, translate=True)
     code = fields.Char('Code', required=True)
     sequence = fields.Integer('Sequence')
@@ -198,7 +196,6 @@ class ProductAttribute(ModelSQL, ModelView):
 class AttributeValue(ModelSQL, ModelView):
     "Values for Attributes"
     __name__ = "product.attribute.value"
-
     name = fields.Char('Name', required=True, translate=True)
     code = fields.Char('Code', required=True)
     sequence = fields.Integer('Sequence')
@@ -241,7 +238,6 @@ class AttributeValue(ModelSQL, ModelView):
 class ProductTemplateAttribute(ModelSQL, ModelView):
     "Product Template - Product Attribute"
     __name__ = "product.template-product.attribute"
-
     attribute = fields.Many2One('product.attribute', 'Product Attribute',
             ondelete='RESTRICT', required=True)
     template = fields.Many2One('product.template', 'Product template',
@@ -256,12 +252,10 @@ class ProductTemplateAttribute(ModelSQL, ModelView):
 class ProductAttributeValue(ModelSQL, ModelView):
     "Product - Product Attribute Value"
     __name__ = "product.product-attribute.value"
-
     product = fields.Many2One('product.product', 'Product',
             ondelete='CASCADE', required=True)
     value = fields.Many2One('product.attribute.value', 'Attribute Value',
             ondelete='CASCADE', required=True)
-
 
     @classmethod
     def __setup__(cls):
