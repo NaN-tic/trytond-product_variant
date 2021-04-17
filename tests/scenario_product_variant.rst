@@ -30,7 +30,7 @@ Create product::
     >>> template.list_price = Decimal('10')
     >>> template.cost_price = Decimal('5')
     >>> template.cost_price_method = 'fixed'
-    >>> template.basecode = '001-'
+    >>> template.code = '001-'
     >>> attributes = Attribute.find()
     >>> for attribute in attributes:
     ...     template.attributes.append(attribute)

@@ -4,13 +4,10 @@
 
 from trytond.pool import Pool, PoolMeta
 from trytond.model import ModelView, ModelSQL, fields
-from trytond.pyson import Eval, Not, Bool
+from trytond.pyson import Eval
 from trytond.transaction import Transaction
 from trytond import backend
 import itertools
-
-__all__ = ['Product', 'Template', 'ProductAttribute', 'AttributeValue',
-    'ProductTemplateAttribute', 'ProductAttributeValue']
 
 
 class Product(metaclass=PoolMeta):
@@ -38,10 +35,6 @@ class Product(metaclass=PoolMeta):
 
 class Template(metaclass=PoolMeta):
     __name__ = 'product.template'
-    basecode = fields.Char('Basecode',
-        states={
-            'invisible': Not(Bool(Eval('attributes')))
-        }, depends=['attributes'])
     attributes = fields.Many2Many('product.template-product.attribute',
         'template', 'attribute', 'Attributes',
         order=[('attribute.sequence', 'ASC')])
@@ -57,6 +50,19 @@ class Template(metaclass=PoolMeta):
                     'invisible': Eval('template'),
                     }
                 })
+
+    @classmethod
+    def __register__(cls, module_name):
+        cursor = Transaction().connection.cursor()
+        template = cls.__table__()
+
+        table_h = backend.TableHandler(cls, module_name)
+        code_exists = table_h.column_exist('code')
+        super().__register__(module_name)
+        if not code_exists:
+            cursor.execute(*template.update(
+                    columns=[template.code],
+                    values=[template.basecode]))
 
     @classmethod
     def delete(cls, templates):
@@ -82,22 +88,20 @@ class Template(metaclass=PoolMeta):
         return [('id', 'in', res)]
 
     @classmethod
-    def create_variant_code(cls, basecode, variant):
+    def create_variant_code(cls, variant):
         Config = Pool().get('product.configuration')
         config = Config(1)
         sep = config.code_separator or ''
-        code = '%s%s' % (basecode or '', ['', sep][bool(basecode)])
-        code = code + sep.join(i.code for i in variant)
-        return code
+        return sep.join(i.code for i in variant)
 
     def create_variant_product(self, variant):
         "Create the product from variant"
         pool = Pool()
         Product = pool.get('product.product')
-        code = self.create_variant_code(self.basecode, variant)
+        code = self.create_variant_code(variant)
         product, = Product.create([{
                     'template': self.id,
-                    'code': code,
+                    'suffix_code': code,
                     'attribute_values': [('add', [v.id for v in variant])],
                     }])
         return product
@@ -107,11 +111,11 @@ class Template(metaclass=PoolMeta):
         create_code()"""
         pool = Pool()
         Product = pool.get('product.product')
-        code = self.create_variant_code(self.basecode, variant)
+        code = self.create_variant_code(variant)
         to_update = [p for p in products if p.code != code or not p.active]
         if to_update:
             Product.write(to_update, {
-                    'code': code,
+                    'suffix_code': code,
                     'active': True,
                     })
 
