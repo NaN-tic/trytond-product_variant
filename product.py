@@ -13,7 +13,8 @@ import itertools
 class Product(metaclass=PoolMeta):
     __name__ = 'product.product'
     attribute_values = fields.Many2Many('product.product-attribute.value',
-        'product', 'value', 'Values', readonly=True)
+        'product', 'value', 'Values', readonly=True,
+        order=[('value.attribute.sequence', 'ASC')])
 
     @classmethod
     def __setup__(cls):
