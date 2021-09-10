@@ -3,7 +3,7 @@
 # the full copyright notices and license terms.
 
 from trytond.pool import Pool, PoolMeta
-from trytond.model import ModelView, ModelSQL, fields
+from trytond.model import ModelView, ModelSQL, DeactivableMixin, fields
 from trytond.pyson import Eval
 from trytond.transaction import Transaction
 from trytond import backend
@@ -198,7 +198,7 @@ class ProductAttribute(ModelSQL, ModelView):
         return [table.sequence == None, table.sequence]
 
 
-class AttributeValue(ModelSQL, ModelView):
+class AttributeValue(DeactivableMixin, ModelSQL, ModelView):
     "Values for Attributes"
     __name__ = "product.attribute.value"
     name = fields.Char('Name', required=True, translate=True)
@@ -206,7 +206,6 @@ class AttributeValue(ModelSQL, ModelView):
     sequence = fields.Integer('Sequence')
     attribute = fields.Many2One('product.attribute', 'Product Attribute',
         required=True, ondelete='CASCADE')
-    active = fields.Boolean('Active', select=True)
 
     @classmethod
     def __setup__(cls):
@@ -216,10 +215,6 @@ class AttributeValue(ModelSQL, ModelView):
     @staticmethod
     def default_sequence():
         return 0
-
-    @staticmethod
-    def default_active():
-        return True
 
     @classmethod
     def deactivate(cls, values):
