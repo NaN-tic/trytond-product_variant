@@ -8,10 +8,15 @@ Imports::
     >>> from proteus import config, Model, Wizard
     >>> from trytond.tests.tools import activate_modules
     >>> from trytond.modules.product_variant.tests.tools import create_attributes
+    >>> from trytond.modules.company.tests.tools import create_company
 
 Install product_cost_plan Module::
 
     >>> config = activate_modules('product_variant')
+
+Create company::
+
+    >>> _ = create_company()
 
 Create attributes::
 
