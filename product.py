@@ -58,9 +58,10 @@ class Template(metaclass=PoolMeta):
         template = cls.__table__()
 
         table_h = backend.TableHandler(cls, module_name)
+        basecode_exists = table_h.column_exist('basecode')
         code_exists = table_h.column_exist('code')
         super().__register__(module_name)
-        if not code_exists:
+        if not code_exists and basecode_exists:
             cursor.execute(*template.update(
                     columns=[template.code],
                     values=[template.basecode]))
