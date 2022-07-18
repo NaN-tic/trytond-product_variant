@@ -71,8 +71,6 @@ class Template(metaclass=PoolMeta):
         #don't know - but this prevent always the deleation of the template
         #so the user has to delete empty templates manually
         templates = list(set(templates))
-        if Transaction().delete:
-            return templates
         return super(Template, cls).delete(templates)
 
     def get_variants(self, name=None):
