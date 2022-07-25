@@ -57,6 +57,10 @@ The COPYRIGHT file at the top level of this repository contains the full copyrig
             <field name="group" ref="product.group_product_admin"/>
         </record>
 
+        <!-- Deactivate product_attribute views -->
+        <menuitem id="product_attribute.menu_attribute_set" action="product_attribute.act_attribute_set_form" active="0"/>
+        <menuitem id="product_attribute.menu_attribute" action="product_attribute.act_attribute_form" active="0"/>
+
         <!-- product.attribute.value -->
         <record model="ir.ui.view" id="product_attribute_value_view_form">
             <field name="model">product.attribute.value</field>

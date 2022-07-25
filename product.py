@@ -190,6 +190,14 @@ class ProductAttribute(ModelSQL, ModelView):
                     columns=[sql_table.code],
                     values=[sql_table.name]))
 
+    @classmethod
+    def default_string(cls):
+        return ' '
+
+    @classmethod
+    def default_type_(cls):
+        return 'char'
+
     @staticmethod
     def order_sequence(tables):
         table, _ = tables[None]
