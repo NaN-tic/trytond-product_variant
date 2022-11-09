@@ -39,7 +39,7 @@ class Template(metaclass=PoolMeta):
     attributes = fields.Many2Many('product.template-product.attribute',
         'template', 'attribute', 'Attributes',
         order=[('attribute.sequence', 'ASC')])
-    variants = fields.Function(fields.Integer('Variants', select=1,
+    variants = fields.Function(fields.Integer('Variants',
         help='Number variants from this template'),
         'get_variants', searcher='search_variants')
 
