@@ -4,7 +4,6 @@
 from trytond.model import fields, ModelSQL, ModelSingleton, ModelView
 from trytond import backend
 from trytond.model import ValueMixin
-from trytond.tools.multivalue import migrate_property
 from trytond.modules.company.model import CompanyMultiValueMixin
 
 code_separator = fields.Char('Code Separator')
@@ -21,24 +20,6 @@ class ConfigurationCodeSeparator(ModelSQL, ValueMixin):
     __name__ = 'product.configuration.code_separator'
     code_separator = code_separator
     _configuration_value_field = 'code_separator'
-
-    @classmethod
-    def __register__(cls, module_name):
-        exist = backend.TableHandler.table_exist(cls._table)
-
-        super(ConfigurationCodeSeparator, cls).__register__(
-            module_name)
-
-        if not exist:
-            cls._migrate_property([], [], [])
-
-    @classmethod
-    def _migrate_property(cls, field_names, value_names, fields):
-        field_names.append('code_separator')
-        value_names.append('code_separator')
-        migrate_property(
-            'product.configuration', field_names, cls, value_names,
-            fields=fields)
 
     @classmethod
     def default_code_separator(cls):
