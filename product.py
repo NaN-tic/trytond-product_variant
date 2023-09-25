@@ -27,9 +27,9 @@ class Product(metaclass=PoolMeta):
 
     @classmethod
     def create(cls, vlist):
+        vlist = [x.copy() for x in vlist]
         for vals in vlist:
             if vals.get('template') and not vals['template']:
-                vals = vals.copy()
                 vals.pop('template')
         return super(Product, cls).create(vlist)
 
