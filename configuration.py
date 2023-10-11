@@ -2,7 +2,6 @@
 # The COPYRIGHT file at the top level of this repository contains
 # the full copyright notices and license terms.
 from trytond.model import fields, ModelSQL, ModelSingleton, ModelView
-from trytond import backend
 from trytond.model import ValueMixin
 from trytond.modules.company.model import CompanyMultiValueMixin
 
