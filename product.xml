@@ -29,7 +29,7 @@ The COPYRIGHT file at the top level of this repository contains the full copyrig
 
         <record model="ir.model.button" id="generate_variants_button">
             <field name="name">generate_variants</field>
-            <field name="model" search="[('model', '=', 'product.template')]"/>
+            <field name="model">product.template</field>
         </record>
 
         <record model="ir.action.act_window" id="act_product_attribute_form">
