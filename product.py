@@ -5,8 +5,6 @@
 from trytond.pool import Pool, PoolMeta
 from trytond.model import ModelView, ModelSQL, DeactivableMixin, fields
 from trytond.pyson import Eval
-from trytond.transaction import Transaction
-from trytond import backend
 import itertools
 
 
@@ -51,20 +49,6 @@ class Template(metaclass=PoolMeta):
                     'invisible': Eval('template'),
                     }
                 })
-
-    @classmethod
-    def __register__(cls, module_name):
-        cursor = Transaction().connection.cursor()
-        template = cls.__table__()
-
-        table_h = backend.TableHandler(cls, module_name)
-        basecode_exists = table_h.column_exist('basecode')
-        code_exists = table_h.column_exist('code')
-        super().__register__(module_name)
-        if not code_exists and basecode_exists:
-            cursor.execute(*template.update(
-                    columns=[template.code],
-                    values=[template.basecode]))
 
     @classmethod
     def delete(cls, templates):
@@ -175,21 +159,6 @@ class ProductAttribute(ModelSQL, ModelView):
     def __setup__(cls):
         super(ProductAttribute, cls).__setup__()
         cls._order.insert(0, ('sequence', 'ASC'))
-
-    @classmethod
-    def __register__(cls, module_name):
-        sql_table = cls.__table__()
-        table_h = backend.TableHandler(cls, module_name)
-        cursor = Transaction().connection.cursor()
-
-        code_not_exists = not table_h.column_exist('code')
-
-        super(ProductAttribute, cls).__register__(module_name)
-
-        if code_not_exists:
-            cursor.execute(*sql_table.update(
-                    columns=[sql_table.code],
-                    values=[sql_table.name]))
 
     @staticmethod
     def order_sequence(tables):
