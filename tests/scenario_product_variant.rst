@@ -41,7 +41,5 @@ Create product::
     ...     template.attributes.append(attribute)
     >>> template.save()
     >>> ProductTemplate.generate_variants([template.id], config.context)
-    >>> Product = Model.get('product.product')
-    >>> product, = Product.find([('code', '=', '001-RL')])
-    >>> product.code
-    '001-RL'
+    >>> [(product.suffix_code, product.code) for product in template.products]
+    [('BL', '001-BL'), ('BM', '001-BM'), ('RL', '001-RL'), ('RM', '001-RM')]
