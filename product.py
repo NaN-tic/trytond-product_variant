@@ -59,15 +59,16 @@ class Template(metaclass=PoolMeta):
 
     def get_variants(self, name=None):
         variants = len(self.products)
-        if variants <= 1:
-            variants = None
         return variants
 
     @classmethod
     def search_variants(cls, name, clause):
         res = []
+        number_of_variants = clause[2]
+        if not number_of_variants:
+            number_of_variants = 0
         for template in cls.search([]):
-            if len(template.products) >= clause[2]:
+            if len(template.products) >= number_of_variants:
                 res.append(template.id)
         return [('id', 'in', res)]
 
