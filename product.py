@@ -11,7 +11,7 @@ import itertools
 class Product(metaclass=PoolMeta):
     __name__ = 'product.product'
     attribute_values = fields.Many2Many('product.product-attribute.value',
-        'product', 'value', 'Values', readonly=True,
+        'product', 'value', 'Values',
         order=[('value.attribute.sequence', 'ASC')])
 
     @classmethod
@@ -72,8 +72,7 @@ class Template(metaclass=PoolMeta):
                 res.append(template.id)
         return [('id', 'in', res)]
 
-    @classmethod
-    def create_variant_code(cls, variant):
+    def create_variant_code(self, variant):
         Config = Pool().get('product.configuration')
         config = Config(1)
         sep = config.code_separator or ''
@@ -83,6 +82,7 @@ class Template(metaclass=PoolMeta):
         "Create the product from variant"
         pool = Pool()
         Product = pool.get('product.product')
+
         code = self.create_variant_code(variant)
         product, = Product.create([{
                     'template': self.id,
