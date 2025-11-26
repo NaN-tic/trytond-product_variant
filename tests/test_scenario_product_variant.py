@@ -51,7 +51,9 @@ class Test(unittest.TestCase):
         ProductTemplate.generate_variants([template.id], config.context)
 
         self.assertEqual([(product.suffix_code, product.code)
-                          for product in template.products], [('BL', '001-BL'),
-                                                              ('BM', '001-BM'),
-                                                              ('RL', '001-RL'),
-                                                              ('RM', '001-RM')])
+                          for product in template.products], [
+                            ('RL', '001-RL'),
+                            ('RM', '001-RM'),
+                            ('BL', '001-BL'),
+                            ('BM', '001-BM'),
+                            ])
