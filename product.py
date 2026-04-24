@@ -4,7 +4,7 @@
 
 from trytond.pool import Pool, PoolMeta
 from trytond.model import ModelView, ModelSQL, DeactivableMixin, fields
-from trytond.pyson import Eval
+from trytond.pyson import Bool, Eval
 import itertools
 
 
@@ -46,7 +46,7 @@ class Template(metaclass=PoolMeta):
         super(Template, cls).__setup__()
         cls._buttons.update({
                 'generate_variants': {
-                    'invisible': Eval('template'),
+                    'invisible': Bool(Eval('template')),
                     }
                 })
 
