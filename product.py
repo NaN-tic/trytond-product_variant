@@ -5,6 +5,7 @@
 from trytond.pool import Pool, PoolMeta
 from trytond.model import ModelView, ModelSQL, DeactivableMixin, fields
 from trytond.pyson import Bool, Eval
+from trytond.transaction import without_check_access
 import itertools
 
 
@@ -99,10 +100,11 @@ class Template(metaclass=PoolMeta):
         code = self.create_variant_code(variant)
         to_update = [p for p in products if p.code != code or not p.active]
         if to_update:
-            Product.write(to_update, {
-                    'suffix_code': code,
-                    'active': True,
-                    })
+            with without_check_access():
+                Product.write(to_update, {
+                        'suffix_code': code,
+                        'active': True,
+                        })
 
     def deactivate_variant_product(self, products):
         """Deactivates supplied products"""
